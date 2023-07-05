@@ -1,5 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { calendar } from './utils/calendar'
+
+const cal = calendar(6, 2023);
+console.log(cal); 
 
 export default function App() {
   return (
@@ -13,7 +17,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ddd',
     alignItems: 'center',
     justifyContent: 'center',
   },
