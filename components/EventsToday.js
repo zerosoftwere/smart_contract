@@ -2,13 +2,12 @@ import { useContext, useMemo } from 'react';
 import { View, Text, ScrollView, StyleSheet, Pressable } from 'react-native';
 import CalendarContext from '../context/CalendarContext';
 
-export default function Events() {
+export default function EventsToday() {
   const {
     today: { day, month, year },
     events,
-    addEvent,
-    removeEvent,
   } = useContext(CalendarContext);
+
   const todaysEvents = useMemo(
     () =>
       events.filter((event) => {
@@ -20,7 +19,7 @@ export default function Events() {
   return (
     <View style={styles.events}>
       <View style={styles.eventTitle}>
-        <Text>Today's Events</Text>
+        <Text style={{fontWeight: 600}}>Today's Events</Text>
       </View>
       <ScrollView style={styles.eventList} bounces>
         {todaysEvents.map((event) => (
@@ -35,6 +34,12 @@ export default function Events() {
             </View>
           </Pressable>
         ))}
+
+        {!todaysEvents.length && (
+          <View style={styles.noEvent}>
+            <Text>No events</Text>
+          </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -72,5 +77,15 @@ const styles = StyleSheet.create({
   },
   eventText: {
     flex: 7,
+  },
+  noEvent: {
+    width: 200,
+    marginTop: 20,
+    alignSelf: 'center',
+    alignItems: 'center',
+    padding: 10,
+    borderStyle: 'dotted',
+    borderColor: '#333',
+    borderWidth: 1,
   },
 });

@@ -52,6 +52,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   navigationText: {
-    fontWeight: 800,
   },
 });

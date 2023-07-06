@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { getCalendar } from '../utils/calendar';
 import { useContext, useMemo } from 'react';
 import CalendarContext from '../context/CalendarContext';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Calendar({ month, year }) {
-  const { today } = useContext(CalendarContext);
+export default function Calendar() {
+  const { today, month, year } = useContext(CalendarContext);
+  const navigation = useNavigation();
 
   const calendar = useMemo(() => {
     return getCalendar(month, year);
@@ -17,16 +19,24 @@ export default function Calendar({ month, year }) {
       {calendar.map((week, i) => (
         <View style={styles.week} key={i}>
           {week.map((day, i) => (
-            <View
-              style={[
-                styles.day,
-                isCurrentMonth && day == today.day ? styles.today : {},
-                day == '' ? styles.blankDate : {},
-              ]}
+            <Pressable
+              style={{ flex: 1 }}
               key={i}
+              onPress={() => {
+                if (day == '') return;
+                navigation.push('events', { month, year, day });
+              }}
             >
-              <Text>{day}</Text>
-            </View>
+              <View
+                style={[
+                  styles.day,
+                  isCurrentMonth && day == today.day ? styles.today : {},
+                  day == '' ? styles.blankDate : {},
+                ]}
+              >
+                <Text>{day}</Text>
+              </View>
+            </Pressable>
           ))}
         </View>
       ))}
@@ -35,7 +45,9 @@ export default function Calendar({ month, year }) {
 }
 
 const styles = StyleSheet.create({
-  calendar: {},
+  calendar: {
+    width: '100%',
+  },
   week: {
     flexDirection: 'row',
     width: '100%',
